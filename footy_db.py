@@ -17,7 +17,6 @@ table_data = ("""CREATE TABLE ballers (
 """
 List of items to be inserted into the table
 """
-
 ballers_list = [
 	('Neymar', 'Jr', 'FW', 'PSG', 'Brazil'),
 	('Kevin', 'De Bruyne', 'AM', 'Man City', 'Belgium'),
@@ -31,6 +30,12 @@ ballers_list = [
 	('Lionel', 'Messi', 'FW', 'PSG', 'Argentina')
 ]
 
+"""
+This function creates a connection to a new or pre-existing database
+params: database_name 
+returns: connection to database
+rtype: object
+"""
 def create_connection(db_name): 
 	conn = None
 	try:
@@ -39,7 +44,10 @@ def create_connection(db_name):
 	except sqlite3.Error:
 		print("Unable to create connection")
 	return conn
-
+"""
+This function creates a database table
+params: table_schema, connection
+"""
 def create_table(connection, table_data):
 	c = connection.cursor()
 	print("creating table...")
@@ -47,11 +55,24 @@ def create_table(connection, table_data):
 	connection.commit()
 	print("table created")
 
+
+"""
+This function displays table data
+params: database connection
+return: table data
+"""
 def show_table(connection):
 	c = connection.cursor()
 	data = c.execute("SELECT * FROM ballers").fetchall()
 	return data
 
+
+"""
+This function creates a csv file using specified table data
+params: table data, name of file to be created
+return: csv file
+rtype: csv
+"""
 def create_csv_data(data, file_name):
 	writer = []
 	for item in data:
@@ -69,16 +90,28 @@ def create_csv_data(data, file_name):
 	Baller_df.to_csv(file_name, index=False)
 	print("Conversion to csv is successful")
 
+"""
+This function deletes a row from a table using the specified id number
+params: database connection, id of row to be deleted
+"""
 def delete_row_by_id(connection, id):
 	c = connection.cursor()
 	c.execute("DELETE FROM TABLE WHERE rowid = (?)", id)
 	connection.commit()
 
+"""
+This function adds multiple items to
+params: database connection, id of row to be deleted
+"""
 def add_items(connection, items_list):
 	c = connection.cursor()
 	c.executemany("INSERT INTO ballers VALUES (?,?,?,?,?)", items_list)
 	connection.commit()
 
+"""
+This function deletes the entire table from the database
+params: database connection
+"""
 def delete_table(connection):
 	c = connection.cursor()
 	print("Deleting table...")
@@ -86,7 +119,9 @@ def delete_table(connection):
 	print("Table deleted...")
 	connection.commit()
 
-
+"""
+Testing the functions 
+"""
 if __name__ == "__main__":
 	connection = create_connection("Footy_db")
 
