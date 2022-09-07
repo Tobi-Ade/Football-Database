@@ -9,7 +9,6 @@ import sqlite3
 Creating a database class with different methods,
 each of which perform a specific  function
 """
-	
 class DB():
 	"""
 	creating constructor object for the DB class
