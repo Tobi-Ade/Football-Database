@@ -16,14 +16,13 @@ class DB():
 	def __init__(self):
 		self.connect = None
 
-	"""
-	This function creates a connection to a new or pre-existing database
-	params: database name 
-	returns: connection to database
-	rtype: object
-	"""
 	def create_connection(self, db_name): 
-		
+		"""
+		This function creates a connection to a new or pre-existing database
+		params: database name 
+		returns: connection to database
+		rtype: object
+		"""
 		try:
 			self.connect = sqlite3.connect(db_name)
 			print("Connection successfully created")
@@ -32,13 +31,14 @@ class DB():
 			self.connect = sqlite3.connect(db_name)
 		return self.connect
 
-	"""
-	This function creates a database table
-	params: table schema
-	returns: creats database table
-	rtype: object
-	"""
+
 	def create_table(self, table_data):
+		"""
+		This function creates a database table
+		params: table schema
+		returns: creats database table
+		rtype: object
+		"""
 		cursor = self.connect.cursor()
 		try:
 			print("creating table...")
@@ -49,45 +49,44 @@ class DB():
 			print('Table already exists')
 		self.connect.commit()
 
-	
-	"""
-	This function adds multiple items to a table in the database
-	params: list of items to be added
-	returns: populated database
-	rtype: object
-	"""
 	def add_items(self, items_list):
+		"""
+		This function adds multiple items to a table in the database
+		params: list of items to be added
+		returns: populated database
+		rtype: object
+		"""
 		cursor = self.connect.cursor()
 		cursor.executemany("INSERT INTO ballers VALUES (?,?,?,?,?)", items_list)
 		self.connect.commit()
 	
-	"""
-	This function displays table and its data
-	params: None
-	return: database table 
-	rtype: object
-	"""
 	def show_table(self):
+		"""
+		This function displays table and its data
+		params: None
+		return: database table 
+		rtype: object
+		"""
 		cursor = self.connect.cursor()
 		data = cursor.execute("SELECT * FROM ballers").fetchall()
 		return data
 
-	"""
-	This function deletes a row from a table using the row id 
-	params: database connection, id of row to be deleted
-	returns: None
-	"""
 	def delete_row_by_id(self, id):
+		"""
+		This function deletes a row from a table using the row id 
+		params: database connection, id of row to be deleted
+		returns: None
+		"""
 		cursor = self.connect.cursor()
 		cursor.execute("DELETE FROM  WHERE rowid = (?)", id)
 		self.connect.commit()
 	
-	"""
-	This function deletes the entire table from the database
-	params: 
-	returns: None
-	"""
 	def delete_table(self):
+		"""
+		This function deletes the entire table from the database
+		params: None
+		returns: None
+		"""
 		cursor = self.connect.cursor()
 		try:
 			print('Deleting Table...')
@@ -100,6 +99,9 @@ class DB():
 
 
 	def create_csv_data(self, data, file_name):
+		"""
+		This fucntion saves the databse data to a specifed file
+		"""
 		writer = []
 		for item in data:
 			dict_writer = {
